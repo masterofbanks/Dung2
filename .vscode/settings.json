@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "Orbit_Simulations.sln"
+    "dotnet.defaultSolution": "Dung2.sln"
 }
