@@ -13,6 +13,8 @@ public class PlayerController : MonoBehaviour
 
     [Header("Jump Physics")]
     public float jumpForce;
+    public float up_vy_grav;
+    public float down_vy_grav;
 
 
     [Header("Ground Stuff")]
@@ -34,6 +36,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        rb.gravityScale = up_vy_grav;
     }
 
     private void Awake()
@@ -45,6 +48,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         MoveCharacter();
+        PhysicsController();
     }
 
     private void MoveCharacter()
@@ -52,6 +56,23 @@ public class PlayerController : MonoBehaviour
         Vector2 raw_d_input = move.ReadValue<Vector2>();
         directional_input = new Vector2(System.Math.Sign(raw_d_input.x), System.Math.Sign(raw_d_input.y));
         rb.velocity = new Vector2(directional_input.x * horizontal_speed, rb.velocity.y);
+    }
+
+    private void PhysicsController()
+    {
+        if (!grounded)
+        {
+            //if you are in the air and moving upwards, set gravity to up_vy_grav
+            if (rb.velocity.y > 0.01f)
+            {
+                rb.gravityScale = up_vy_grav;
+            }
+            //if you are in the air and are moving downwards, set the gravity to down_vy_grav
+            else
+            {
+                rb.gravityScale = down_vy_grav;
+            }
+        }
     }
 
     private void Jump(InputAction.CallbackContext context)
@@ -62,6 +83,8 @@ public class PlayerController : MonoBehaviour
 
         }
     }
+
+
 
     private void OnEnable()
     {

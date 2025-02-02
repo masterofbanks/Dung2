@@ -248,8 +248,8 @@ Transform:
   m_GameObject: {fileID: 147885501}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.0226, y: -4.76, z: 0}
-  m_LocalScale: {x: 18.3651, y: 1, z: 1}
+  m_LocalPosition: {x: 0.075, y: -10.1, z: 0}
+  m_LocalScale: {x: 36.25518, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -373,7 +373,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 10
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -486,7 +486,7 @@ Transform:
   m_GameObject: {fileID: 1285118610}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -15.17, y: -9.05, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -508,7 +508,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 5
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -597,8 +597,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34ea2321222712049a1a2d6ad3962775, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  horizontal_speed: 10
-  jumpForce: 10
+  horizontal_speed: 15
+  jumpForce: 22.5
+  up_vy_grav: 5
+  down_vy_grav: 8
   feetPosition: {fileID: 204092869}
   grounded: 0
 --- !u!1 &1304814957
