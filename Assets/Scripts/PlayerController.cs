@@ -11,11 +11,17 @@ public class PlayerController : MonoBehaviour
     [Header("Movement Physics")]
     public float horizontal_speed;
 
+    [Header("Jump Physics")]
+    public float jumpForce;
 
 
+    [Header("Ground Stuff")]
+    public Transform feetPosition;
+    public bool grounded;
 
     //input actions
     private InputAction move;
+    private InputAction jump;
 
     //componenets
     public Player_input PIAs;
@@ -48,14 +54,29 @@ public class PlayerController : MonoBehaviour
         rb.velocity = new Vector2(directional_input.x * horizontal_speed, rb.velocity.y);
     }
 
+    private void Jump(InputAction.CallbackContext context)
+    {
+        if (grounded)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+
+        }
+    }
+
     private void OnEnable()
     {
         move = PIAs.Player.Move;
+        jump = PIAs.Player.Jump;    
+
         move.Enable();
+        jump.Enable();
+
+        jump.performed += Jump;
     }
 
     private void OnDisable()
     {
         move.Disable();
+        jump.Disable();
     }
 }
