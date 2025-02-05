@@ -16,10 +16,16 @@ public class PlayerController : MonoBehaviour
     public float up_vy_grav;
     public float down_vy_grav;
 
+    [Header("Coyote Time")]
+    public float coyoteTime;
+    public float coy_Timer;
+
 
     [Header("Ground Stuff")]
     public Transform feetPosition;
     public bool grounded;
+    public LayerMask groundMask;
+    public float groundRadius;
 
     //input actions
     private InputAction move;
@@ -49,6 +55,7 @@ public class PlayerController : MonoBehaviour
     {
         MoveCharacter();
         PhysicsController();
+        Grounded();
     }
 
     private void MoveCharacter()
@@ -62,6 +69,11 @@ public class PlayerController : MonoBehaviour
     {
         if (!grounded)
         {
+
+            coy_Timer -= Time.deltaTime;
+            
+
+
             //if you are in the air and moving upwards, set gravity to up_vy_grav
             if (rb.velocity.y > 0.01f)
             {
@@ -73,14 +85,28 @@ public class PlayerController : MonoBehaviour
                 rb.gravityScale = down_vy_grav;
             }
         }
+
+        else
+        {
+            coy_Timer = coyoteTime;
+        }
+
+        if(rb.velocity.y > 0)
+        {
+            coy_Timer = 0;
+        }
+    }
+
+    private void Grounded()
+    {
+        grounded = Physics2D.OverlapCircle(feetPosition.position, groundRadius, groundMask);
     }
 
     private void Jump(InputAction.CallbackContext context)
     {
-        if (grounded)
+        if (coy_Timer > 0)
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-
         }
     }
 
