@@ -9,7 +9,8 @@ public class PlayerController : MonoBehaviour
     
 
     [Header("Movement Physics")]
-    public float horizontal_speed;
+    public float norm_horizontal_speed;
+    private float horizontal_speed;
 
     [Header("Jump Physics")]
     public float jumpForce;
@@ -41,11 +42,16 @@ public class PlayerController : MonoBehaviour
     //key values
     private Vector2 directional_input;
 
+    //random bools
+    private bool IAB;
+
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         rb.gravityScale = up_vy_grav;
+        horizontal_speed = norm_horizontal_speed;
+        IAB = false;
     }
 
     private void Awake()
@@ -68,7 +74,17 @@ public class PlayerController : MonoBehaviour
     {
         Vector2 raw_d_input = move.ReadValue<Vector2>();
         directional_input = new Vector2(System.Math.Sign(raw_d_input.x), System.Math.Sign(raw_d_input.y));
-        rb.velocity = new Vector2(directional_input.x * horizontal_speed, rb.velocity.y);
+
+        if (!IAB)
+        {
+            
+            rb.velocity = new Vector2(directional_input.x * horizontal_speed, rb.velocity.y);
+        }
+
+        else
+        {
+            rb.velocity = new Vector2(directional_input.x * horizontal_speed, 0);
+        }
     }
 
     private void PhysicsController()
@@ -148,5 +164,15 @@ public class PlayerController : MonoBehaviour
     {
         move.Disable();
         jump.Disable();
+    }
+
+    public void SetHorizontalSpeed(float s)
+    {
+        horizontal_speed = s;
+    }
+
+    public void Set_IAB(bool i)
+    {
+        IAB = i;
     }
 }
