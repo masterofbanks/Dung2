@@ -640,6 +640,8 @@ MonoBehaviour:
   down_vy_grav: 8
   coyoteTime: 0.2
   coy_Timer: 0
+  bufferTime: 0.2
+  buffer_Timer: 0
   feetPosition: {fileID: 204092869}
   grounded: 0
   groundMask:

@@ -20,6 +20,9 @@ public class PlayerController : MonoBehaviour
     public float coyoteTime;
     public float coy_Timer;
 
+    [Header("Buffer Time")]
+    public float bufferTime;
+    public float buffer_Timer;
 
     [Header("Ground Stuff")]
     public Transform feetPosition;
@@ -56,6 +59,9 @@ public class PlayerController : MonoBehaviour
         MoveCharacter();
         PhysicsController();
         Grounded();
+        UpdateJump();
+
+        
     }
 
     private void MoveCharacter()
@@ -95,6 +101,12 @@ public class PlayerController : MonoBehaviour
         {
             coy_Timer = 0;
         }
+
+        if (buffer_Timer > 0)
+        {
+            buffer_Timer -= Time.deltaTime;
+
+        }
     }
 
     private void Grounded()
@@ -102,14 +114,23 @@ public class PlayerController : MonoBehaviour
         grounded = Physics2D.OverlapCircle(feetPosition.position, groundRadius, groundMask);
     }
 
-    private void Jump(InputAction.CallbackContext context)
+    private void UpdateJump()
     {
-        if (coy_Timer > 0)
+        if (coy_Timer > 0 && buffer_Timer > 0)
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            buffer_Timer = 0;
         }
     }
 
+    private void Jump(InputAction.CallbackContext context)
+    {
+        
+
+        buffer_Timer = bufferTime;
+    }
+
+    
 
 
     private void OnEnable()
