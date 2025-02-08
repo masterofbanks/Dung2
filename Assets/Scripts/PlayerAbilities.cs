@@ -19,15 +19,23 @@ public class PlayerAbilities : MonoBehaviour
 
     [Header("Abilities")]
     public bool in_air_boost;
+    public bool doubleJump;
 
     private InputAction boost;
+    private InputAction dj;
     private Rigidbody2D rb;
+
+    //canAbilitiy
+    private bool can_IAB;
+    private bool canDJ;
     
     // Start is called before the first frame update
     void Start()
     {
         controller = GetComponent<PlayerController>();
         rb = GetComponent<Rigidbody2D>();
+        can_IAB = false;
+        canDJ = false;
 
     }
 
@@ -51,8 +59,9 @@ public class PlayerAbilities : MonoBehaviour
             StartCoroutine(BoostRoutine(rollingDuration, rollingSpeed, false));
         }
 
-        else if(in_air_boost)
+        else if(in_air_boost && can_IAB)
         {
+            can_IAB = false;
             StartCoroutine(BoostRoutine(IAB_Duration, IAB_Speed, true));
         }
     }
@@ -82,15 +91,34 @@ public class PlayerAbilities : MonoBehaviour
         controller.SetHorizontalSpeed(controller.norm_horizontal_speed);
     }
 
+    private void DoubleJump(InputAction.CallbackContext context)
+    {
+        if(!controller.grounded && canDJ && doubleJump)
+        {
+            canDJ = false;
+            controller.AddJumpForce();
+        }
+    }
+
     private void OnEnable()
     {
         boost = PIAs.Player.Boost;
         boost.Enable();
         boost.performed += Boost;
+
+        dj = PIAs.Player.Jump;
+        dj.Enable();
+        dj.performed += DoubleJump;
     }
 
     private void OnDisable()
     {
         boost.Disable();
+    }
+
+    public void Set_Cans_true()
+    {
+        can_IAB = true;
+        canDJ = true;
     }
 }

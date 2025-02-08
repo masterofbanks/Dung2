@@ -141,7 +141,7 @@ public class PlayerController : MonoBehaviour
     {
         if (coy_Timer > 0 && buffer_Timer > 0)
         {
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            AddJumpForce();
             buffer_Timer = 0;
         }
     }
@@ -153,7 +153,14 @@ public class PlayerController : MonoBehaviour
         buffer_Timer = bufferTime;
     }
 
-    
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Orb"))
+        {
+            collision.gameObject.GetComponent<Orb_Spawn_Behavior>().Disappear();
+            GetComponent<PlayerAbilities>().Set_Cans_true();
+        }
+    }
 
 
     private void OnEnable()
@@ -181,5 +188,10 @@ public class PlayerController : MonoBehaviour
     public void Set_IAB(bool i)
     {
         IAB = i;
+    }
+
+    public void AddJumpForce()
+    {
+        rb.velocity = new Vector2(rb.velocity.x, jumpForce);
     }
 }
