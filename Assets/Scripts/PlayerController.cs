@@ -44,6 +44,7 @@ public class PlayerController : MonoBehaviour
 
     //random bools
     private bool IAB;
+    public float lastFacingRight;
 
     // Start is called before the first frame update
     void Start()
@@ -52,6 +53,7 @@ public class PlayerController : MonoBehaviour
         rb.gravityScale = up_vy_grav;
         horizontal_speed = norm_horizontal_speed;
         IAB = false;
+        lastFacingRight = 1;
     }
 
     private void Awake()
@@ -83,7 +85,12 @@ public class PlayerController : MonoBehaviour
 
         else
         {
-            rb.velocity = new Vector2(directional_input.x * horizontal_speed, 0);
+            rb.velocity = new Vector2(lastFacingRight * horizontal_speed, 0);
+        }
+
+        if(directional_input.x != 0)
+        {
+            lastFacingRight = directional_input.x;
         }
     }
 
