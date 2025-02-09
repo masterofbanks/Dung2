@@ -1,16 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem; 
+using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
 
-    
+
 
     [Header("Movement Physics")]
     public float norm_horizontal_speed;
-    private float horizontal_speed;
+    public float norm_falling_speed;
+
 
     [Header("Jump Physics")]
     public float jumpForce;
@@ -41,6 +42,9 @@ public class PlayerController : MonoBehaviour
 
     //key values
     private Vector2 directional_input;
+    private float horizontal_speed;
+    private float max_falling_speed;
+
 
     //random bools
     private bool IAB;
@@ -54,6 +58,7 @@ public class PlayerController : MonoBehaviour
         horizontal_speed = norm_horizontal_speed;
         IAB = false;
         lastFacingRight = 1;
+        max_falling_speed = norm_falling_speed;
     }
 
     private void Awake()
@@ -69,7 +74,7 @@ public class PlayerController : MonoBehaviour
         Grounded();
         UpdateJump();
 
-        
+
     }
 
     private void MoveCharacter()
@@ -79,7 +84,7 @@ public class PlayerController : MonoBehaviour
 
         if (!IAB)
         {
-            
+
             rb.velocity = new Vector2(directional_input.x * horizontal_speed, rb.velocity.y);
         }
 
@@ -88,10 +93,12 @@ public class PlayerController : MonoBehaviour
             rb.velocity = new Vector2(lastFacingRight * horizontal_speed, 0);
         }
 
-        if(directional_input.x != 0)
+        if (directional_input.x != 0)
         {
             lastFacingRight = directional_input.x;
         }
+
+        rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -max_falling_speed, float.MaxValue));
     }
 
     private void PhysicsController()
@@ -100,7 +107,7 @@ public class PlayerController : MonoBehaviour
         {
 
             coy_Timer -= Time.deltaTime;
-            
+
 
 
             //if you are in the air and moving upwards, set gravity to up_vy_grav
@@ -120,7 +127,7 @@ public class PlayerController : MonoBehaviour
             coy_Timer = coyoteTime;
         }
 
-        if(rb.velocity.y > 0)
+        if (rb.velocity.y > 0)
         {
             coy_Timer = 0;
         }
@@ -148,7 +155,7 @@ public class PlayerController : MonoBehaviour
 
     private void Jump(InputAction.CallbackContext context)
     {
-        
+
 
         buffer_Timer = bufferTime;
     }
@@ -166,7 +173,7 @@ public class PlayerController : MonoBehaviour
     private void OnEnable()
     {
         move = PIAs.Player.Move;
-        jump = PIAs.Player.Jump;    
+        jump = PIAs.Player.Jump;
 
         move.Enable();
         jump.Enable();
@@ -194,4 +201,11 @@ public class PlayerController : MonoBehaviour
     {
         rb.velocity = new Vector2(rb.velocity.x, jumpForce);
     }
+
+    public void SetFallingSpeed(float s)
+    {
+        max_falling_speed = s;
+    }
+
+    
 }

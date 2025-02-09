@@ -872,6 +872,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   norm_horizontal_speed: 15
+  norm_falling_speed: 30
   jumpForce: 22.5
   up_vy_grav: 5
   down_vy_grav: 8
@@ -903,8 +904,11 @@ MonoBehaviour:
   rollingDuration: 0.2
   IAB_Speed: 35
   IAB_Duration: 0.2
+  floatingSpeed: 5
   in_air_boost: 1
   doubleJump: 1
+  floating: 1
+  canFloat: 0
 --- !u!1001 &1524556518
 PrefabInstance:
   m_ObjectHideFlags: 0

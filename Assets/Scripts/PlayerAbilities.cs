@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEditor.XR;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PlayerAbilities : MonoBehaviour
 {
@@ -17,17 +18,29 @@ public class PlayerAbilities : MonoBehaviour
     public float IAB_Speed;
     public float IAB_Duration;
 
+    [Header("Float Physics")]
+    public float floatingSpeed;
+
     [Header("Abilities")]
     public bool in_air_boost;
     public bool doubleJump;
+    public bool floating;
 
+
+    //Input Actions
     private InputAction boost;
     private InputAction dj;
+    private InputAction f;
+    private InputAction restart;
+
+    //components
     private Rigidbody2D rb;
+    
 
     //canAbilitiy
     private bool can_IAB;
     private bool canDJ;
+    private bool canFloat;
     
     // Start is called before the first frame update
     void Start()
@@ -36,6 +49,7 @@ public class PlayerAbilities : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         can_IAB = false;
         canDJ = false;
+        canFloat = false;
 
     }
 
@@ -100,6 +114,27 @@ public class PlayerAbilities : MonoBehaviour
         }
     }
 
+    private void Float(InputAction.CallbackContext context)
+    {
+        if(canFloat && !controller.grounded && floating)
+        {
+            controller.SetFallingSpeed(floatingSpeed);
+        }
+    }
+
+    private void EndFloat(InputAction.CallbackContext context)
+    {
+        canFloat = false;
+        controller.SetFallingSpeed(controller.norm_falling_speed);
+    }
+
+    private void Restart(InputAction.CallbackContext context)
+    {
+        SceneManager.LoadScene(0);
+    }
+
+
+
     private void OnEnable()
     {
         boost = PIAs.Player.Boost;
@@ -109,16 +144,29 @@ public class PlayerAbilities : MonoBehaviour
         dj = PIAs.Player.Jump;
         dj.Enable();
         dj.performed += DoubleJump;
+
+        f = PIAs.Player.Float;
+        f.Enable();
+        f.started += Float;
+        f.canceled+= EndFloat;
+
+        restart = PIAs.Player.Restart;
+        restart.Enable();
+        restart.performed += Restart;
     }
 
     private void OnDisable()
     {
         boost.Disable();
+        dj.Disable();
+        f.Disable();
+        restart.Disable(); 
     }
 
     public void Set_Cans_true()
     {
         can_IAB = true;
         canDJ = true;
+        canFloat = true;
     }
 }

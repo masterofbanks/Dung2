@@ -71,6 +71,24 @@ public partial class @Player_input: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Float"",
+                    ""type"": ""Button"",
+                    ""id"": ""c8752a9c-17b0-4b6e-b005-748523c0a769"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Restart"",
+                    ""type"": ""Button"",
+                    ""id"": ""50091639-eaf1-43fa-b86a-821d62a54cf5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -313,6 +331,28 @@ public partial class @Player_input: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Boost"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d3fe5915-56de-4820-b2f0-9bebbc416776"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": ""Hold(duration=0.4,pressPoint=0.5)"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Float"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""38480089-50b9-4e86-9c0f-4e026a66239c"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Restart"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -905,6 +945,8 @@ public partial class @Player_input: IInputActionCollection2, IDisposable
         m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Boost = m_Player.FindAction("Boost", throwIfNotFound: true);
+        m_Player_Float = m_Player.FindAction("Float", throwIfNotFound: true);
+        m_Player_Restart = m_Player.FindAction("Restart", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -983,6 +1025,8 @@ public partial class @Player_input: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Fire;
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_Boost;
+    private readonly InputAction m_Player_Float;
+    private readonly InputAction m_Player_Restart;
     public struct PlayerActions
     {
         private @Player_input m_Wrapper;
@@ -992,6 +1036,8 @@ public partial class @Player_input: IInputActionCollection2, IDisposable
         public InputAction @Fire => m_Wrapper.m_Player_Fire;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @Boost => m_Wrapper.m_Player_Boost;
+        public InputAction @Float => m_Wrapper.m_Player_Float;
+        public InputAction @Restart => m_Wrapper.m_Player_Restart;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1016,6 +1062,12 @@ public partial class @Player_input: IInputActionCollection2, IDisposable
             @Boost.started += instance.OnBoost;
             @Boost.performed += instance.OnBoost;
             @Boost.canceled += instance.OnBoost;
+            @Float.started += instance.OnFloat;
+            @Float.performed += instance.OnFloat;
+            @Float.canceled += instance.OnFloat;
+            @Restart.started += instance.OnRestart;
+            @Restart.performed += instance.OnRestart;
+            @Restart.canceled += instance.OnRestart;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1035,6 +1087,12 @@ public partial class @Player_input: IInputActionCollection2, IDisposable
             @Boost.started -= instance.OnBoost;
             @Boost.performed -= instance.OnBoost;
             @Boost.canceled -= instance.OnBoost;
+            @Float.started -= instance.OnFloat;
+            @Float.performed -= instance.OnFloat;
+            @Float.canceled -= instance.OnFloat;
+            @Restart.started -= instance.OnRestart;
+            @Restart.performed -= instance.OnRestart;
+            @Restart.canceled -= instance.OnRestart;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1222,6 +1280,8 @@ public partial class @Player_input: IInputActionCollection2, IDisposable
         void OnFire(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnBoost(InputAction.CallbackContext context);
+        void OnFloat(InputAction.CallbackContext context);
+        void OnRestart(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
