@@ -886,6 +886,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   groundRadius: 0.3
+  abil: {fileID: 0}
   lastFacingRight: 0
 --- !u!114 &1285118617
 MonoBehaviour:
@@ -901,14 +902,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller: {fileID: 0}
   rollingSpeed: 25
-  rollingDuration: 0.2
+  rollingDuration: 0.1
+  numMaxRolls: 1
+  recoveryTime: 1
   IAB_Speed: 35
   IAB_Duration: 0.2
   floatingSpeed: 5
+  maxFloatDuration: 0.5
   in_air_boost: 1
   doubleJump: 1
   floating: 1
+  boosting: 0
   canFloat: 0
+  r_t: 0
+  numRolls: 0
+  isFloating: 0
 --- !u!1001 &1524556518
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1051,12 +1059,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 1625069986}
     m_Modifications:
     - target: {fileID: 1564212170265378996, guid: 9640428e0d0b672488e73216943134ea, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.4490427
+      objectReference: {fileID: 0}
+    - target: {fileID: 1564212170265378996, guid: 9640428e0d0b672488e73216943134ea, type: 3}
       propertyPath: m_LocalPosition.x
       value: -7.402
       objectReference: {fileID: 0}
     - target: {fileID: 1564212170265378996, guid: 9640428e0d0b672488e73216943134ea, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -8.5058
+      value: -9.4655
       objectReference: {fileID: 0}
     - target: {fileID: 1564212170265378996, guid: 9640428e0d0b672488e73216943134ea, type: 3}
       propertyPath: m_LocalPosition.z

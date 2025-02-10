@@ -38,6 +38,7 @@ public class PlayerController : MonoBehaviour
 
     //componenets
     public Player_input PIAs;
+    public PlayerAbilities abil;
     private Rigidbody2D rb;
 
     //key values
@@ -54,6 +55,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        abil = GetComponent<PlayerAbilities>();
         rb.gravityScale = up_vy_grav;
         horizontal_speed = norm_horizontal_speed;
         IAB = false;
@@ -88,10 +90,7 @@ public class PlayerController : MonoBehaviour
             rb.velocity = new Vector2(directional_input.x * horizontal_speed, rb.velocity.y);
         }
 
-        else
-        {
-            rb.velocity = new Vector2(lastFacingRight * horizontal_speed, 0);
-        }
+        
 
         if (directional_input.x != 0)
         {
@@ -109,17 +108,20 @@ public class PlayerController : MonoBehaviour
             coy_Timer -= Time.deltaTime;
 
 
-
-            //if you are in the air and moving upwards, set gravity to up_vy_grav
-            if (rb.velocity.y > 0.01f)
+            if (!abil.GetBoosting())
             {
-                rb.gravityScale = up_vy_grav;
+                //if you are in the air and moving upwards, set gravity to up_vy_grav
+                if (rb.velocity.y > 0.01f)
+                {
+                    rb.gravityScale = up_vy_grav;
+                }
+                //if you are in the air and are moving downwards, set the gravity to down_vy_grav
+                else
+                {
+                    rb.gravityScale = down_vy_grav;
+                }
             }
-            //if you are in the air and are moving downwards, set the gravity to down_vy_grav
-            else
-            {
-                rb.gravityScale = down_vy_grav;
-            }
+            
         }
 
         else

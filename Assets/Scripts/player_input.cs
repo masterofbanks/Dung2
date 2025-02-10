@@ -338,7 +338,7 @@ public partial class @Player_input: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""d3fe5915-56de-4820-b2f0-9bebbc416776"",
                     ""path"": ""<Keyboard>/w"",
-                    ""interactions"": ""Hold(duration=0.4,pressPoint=0.5)"",
+                    ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Float"",

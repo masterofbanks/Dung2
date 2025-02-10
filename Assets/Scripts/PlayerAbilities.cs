@@ -13,13 +13,24 @@ public class PlayerAbilities : MonoBehaviour
     [Header("Rolling Physics")]
     public float rollingSpeed;
     public float rollingDuration;
+    public int numMaxRolls;
+    public float recoveryTime;
+    
+    private float r_t;
+    private int numRolls;
 
     [Header("In Air Boost Physics")]
     public float IAB_Speed;
     public float IAB_Duration;
+    private bool boosting;
+
 
     [Header("Float Physics")]
     public float floatingSpeed;
+    public float maxFloatDuration;
+
+    private bool canFloat;
+    private bool isFloating;
 
     [Header("Abilities")]
     public bool in_air_boost;
@@ -40,8 +51,14 @@ public class PlayerAbilities : MonoBehaviour
     //canAbilitiy
     private bool can_IAB;
     private bool canDJ;
-    private bool canFloat;
+
     
+
+    
+
+    
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -50,7 +67,9 @@ public class PlayerAbilities : MonoBehaviour
         can_IAB = false;
         canDJ = false;
         canFloat = false;
-
+        boosting = false;
+        r_t = 0;
+        numRolls = numMaxRolls;
     }
 
     private void Awake()
@@ -62,47 +81,54 @@ public class PlayerAbilities : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(numRolls < numMaxRolls && r_t < recoveryTime)
+        {
+            r_t += Time.deltaTime;
+            if(r_t >= recoveryTime)
+            {
+                numRolls++;
+                r_t = 0;
+            }
+        }
     }
 
 
     private void Boost(InputAction.CallbackContext context)
     {
-        if (controller.grounded)
-        {
-            StartCoroutine(BoostRoutine(rollingDuration, rollingSpeed, false));
-        }
+        
 
-        else if(in_air_boost && can_IAB)
+        if(!controller.grounded && in_air_boost && can_IAB)
         {
             can_IAB = false;
-            StartCoroutine(BoostRoutine(IAB_Duration, IAB_Speed, true));
+            StartCoroutine(BoostRoutine(IAB_Duration, IAB_Speed));
+        }
+
+        else if (controller.grounded && numRolls > 0)
+        {
+            StartCoroutine(RollRoutine(IAB_Duration, IAB_Speed));
         }
     }
 
-    IEnumerator BoostRoutine(float d, float s, bool cancel_grav)
+    IEnumerator BoostRoutine(float d, float s)
     {
-        controller.SetHorizontalSpeed(s);
-        controller.Set_IAB(cancel_grav);
+        boosting = true;
+        controller.Set_IAB(boosting);
+        rb.velocity = Vector2.zero;
+        rb.gravityScale = 0.0f;
+        rb.velocity = new Vector2(controller.lastFacingRight * IAB_Speed, 0);
 
-        float temp1 = controller.down_vy_grav;
-        float temp2 = controller.up_vy_grav;
+        yield return new WaitForSeconds(IAB_Duration);
+        boosting = false;
+        controller.Set_IAB(boosting);
+    }
 
-        if (cancel_grav)
-        {
-            controller.down_vy_grav = 0;
-            controller.up_vy_grav = 0;
-        }
-
-        yield return new WaitForSeconds(d);
-
-        if (cancel_grav)
-        {
-            controller.down_vy_grav = temp1;
-            controller.up_vy_grav = temp2;
-        }
-        controller.Set_IAB(false);
+    IEnumerator RollRoutine(float d, float s)
+    {
+        numRolls--;
+        controller.SetHorizontalSpeed(IAB_Speed);
+        yield return new WaitForSeconds(IAB_Duration);
         controller.SetHorizontalSpeed(controller.norm_horizontal_speed);
+
     }
 
     private void DoubleJump(InputAction.CallbackContext context)
@@ -118,13 +144,14 @@ public class PlayerAbilities : MonoBehaviour
     {
         if(canFloat && !controller.grounded && floating)
         {
-            controller.SetFallingSpeed(floatingSpeed);
+            StartCoroutine(FloatRoutine());
         }
     }
 
-    private void EndFloat(InputAction.CallbackContext context)
+    IEnumerator FloatRoutine()
     {
-        canFloat = false;
+        controller.SetFallingSpeed(floatingSpeed);
+        yield return new WaitForSeconds(maxFloatDuration);
         controller.SetFallingSpeed(controller.norm_falling_speed);
     }
 
@@ -133,7 +160,7 @@ public class PlayerAbilities : MonoBehaviour
         SceneManager.LoadScene(0);
     }
 
-
+    
 
     private void OnEnable()
     {
@@ -147,8 +174,8 @@ public class PlayerAbilities : MonoBehaviour
 
         f = PIAs.Player.Float;
         f.Enable();
-        f.started += Float;
-        f.canceled+= EndFloat;
+        f.performed += Float;
+        
 
         restart = PIAs.Player.Restart;
         restart.Enable();
@@ -168,5 +195,10 @@ public class PlayerAbilities : MonoBehaviour
         can_IAB = true;
         canDJ = true;
         canFloat = true;
+    }
+
+    public bool GetBoosting()
+    {
+        return boosting;
     }
 }
