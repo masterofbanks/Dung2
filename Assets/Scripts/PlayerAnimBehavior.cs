@@ -8,7 +8,7 @@ public class PlayerAnimBehavior : MonoBehaviour
     private Rigidbody2D rb;
 
     public PlayerController controller;
-
+    public PlayerAbilities abilityScript;
 
     
     // Start is called before the first frame update
@@ -16,6 +16,7 @@ public class PlayerAnimBehavior : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         controller = GetComponent<PlayerController>();
+        abilityScript = GetComponent<PlayerAbilities>();    
     }
 
     
@@ -34,8 +35,14 @@ public class PlayerAnimBehavior : MonoBehaviour
 
     private void StateController()
     {
+        //rolling
+        if (abilityScript.GetRolling())
+        {
+            controller.state = PlayerController.State.rolling;
+        }
+        
         //on the ground
-        if (controller.grounded)
+        else if (controller.grounded)
         {
             //moving
             if(Mathf.Abs(rb.velocity.x) > 0.1f)

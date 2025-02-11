@@ -52,9 +52,9 @@ public class PlayerAbilities : MonoBehaviour
     private bool can_IAB;
     private bool canDJ;
 
-    
 
-    
+
+    private bool rolling;
 
     
 
@@ -103,7 +103,7 @@ public class PlayerAbilities : MonoBehaviour
             StartCoroutine(BoostRoutine(IAB_Duration, IAB_Speed));
         }
 
-        else if (controller.grounded && numRolls > 0)
+        else if (controller.grounded && numRolls > 0 && controller.GetDirectionalInput().x != 0)
         {
             StartCoroutine(RollRoutine(rollingDuration, rollingSpeed));
         }
@@ -124,9 +124,11 @@ public class PlayerAbilities : MonoBehaviour
 
     IEnumerator RollRoutine(float d, float s)
     {
+        rolling = true;
         numRolls--;
         controller.SetHorizontalSpeed(s);
         yield return new WaitForSeconds(d);
+        rolling = false;
         controller.SetHorizontalSpeed(controller.norm_horizontal_speed);
 
     }
@@ -200,5 +202,10 @@ public class PlayerAbilities : MonoBehaviour
     public bool GetBoosting()
     {
         return boosting;
+    }
+
+    public bool GetRolling()
+    {
+        return rolling;
     }
 }

@@ -13,7 +13,8 @@ public class PlayerController : MonoBehaviour
         jumping,
         falling,
         crouching,
-        cw
+        cw,
+        rolling
     }
 
     [Header("State")]
