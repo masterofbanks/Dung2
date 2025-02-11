@@ -164,7 +164,7 @@ public class PlayerController : MonoBehaviour
             coy_Timer = coyoteTime;
         }
 
-        if (rb.velocity.y > 0)
+        if (rb.velocity.y > 0.1f)
         {
             coy_Timer = 0;
         }
