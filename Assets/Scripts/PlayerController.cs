@@ -6,7 +6,18 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
 
+    public enum State
+    {
+        idle,
+        running,
+        jumping,
+        falling,
+        crouching,
+        cw
+    }
 
+    [Header("State")]
+    public State state;
 
     [Header("Movement Physics")]
     public float norm_horizontal_speed;
@@ -40,6 +51,7 @@ public class PlayerController : MonoBehaviour
     public Player_input PIAs;
     public PlayerAbilities abil;
     private Rigidbody2D rb;
+    private Animator anime;
 
     //key values
     private Vector2 directional_input;
@@ -49,6 +61,7 @@ public class PlayerController : MonoBehaviour
 
     //random bools
     private bool IAB;
+    private bool facingRight;
     public float lastFacingRight;
 
     // Start is called before the first frame update
@@ -56,11 +69,14 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         abil = GetComponent<PlayerAbilities>();
+        anime = GetComponent<Animator>();
+        facingRight = true;
         rb.gravityScale = up_vy_grav;
         horizontal_speed = norm_horizontal_speed;
         IAB = false;
         lastFacingRight = 1;
         max_falling_speed = norm_falling_speed;
+        state = State.idle;
     }
 
     private void Awake()
@@ -71,7 +87,10 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        anime.SetInteger("state", (int)state);
+
         MoveCharacter();
+        Flip();
         PhysicsController();
         Grounded();
         UpdateJump();
@@ -98,6 +117,21 @@ public class PlayerController : MonoBehaviour
         }
 
         rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -max_falling_speed, float.MaxValue));
+    }
+
+    private void Flip()
+    {
+        if (facingRight && System.Math.Sign(directional_input.x) == -1.0f)
+        {
+            transform.localScale = new Vector3(-1 * transform.localScale.x, 1, 1);
+            facingRight = !facingRight;
+        }
+
+        else if (!facingRight && System.Math.Sign(directional_input.x) == 1.0f)
+        {
+            transform.localScale = new Vector3(-1 * transform.localScale.x, 1, 1);
+            facingRight = !facingRight;
+        }
     }
 
     private void PhysicsController()
@@ -209,5 +243,9 @@ public class PlayerController : MonoBehaviour
         max_falling_speed = s;
     }
 
+    public Vector2 GetDirectionalInput()
+    {
+        return directional_input;
+    }
     
 }

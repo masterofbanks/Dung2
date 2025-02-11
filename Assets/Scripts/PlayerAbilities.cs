@@ -105,7 +105,7 @@ public class PlayerAbilities : MonoBehaviour
 
         else if (controller.grounded && numRolls > 0)
         {
-            StartCoroutine(RollRoutine(IAB_Duration, IAB_Speed));
+            StartCoroutine(RollRoutine(rollingDuration, rollingSpeed));
         }
     }
 
@@ -115,9 +115,9 @@ public class PlayerAbilities : MonoBehaviour
         controller.Set_IAB(boosting);
         rb.velocity = Vector2.zero;
         rb.gravityScale = 0.0f;
-        rb.velocity = new Vector2(controller.lastFacingRight * IAB_Speed, 0);
+        rb.velocity = new Vector2(controller.lastFacingRight * s, 0);
 
-        yield return new WaitForSeconds(IAB_Duration);
+        yield return new WaitForSeconds(d);
         boosting = false;
         controller.Set_IAB(boosting);
     }
@@ -125,8 +125,8 @@ public class PlayerAbilities : MonoBehaviour
     IEnumerator RollRoutine(float d, float s)
     {
         numRolls--;
-        controller.SetHorizontalSpeed(IAB_Speed);
-        yield return new WaitForSeconds(IAB_Duration);
+        controller.SetHorizontalSpeed(s);
+        yield return new WaitForSeconds(d);
         controller.SetHorizontalSpeed(controller.norm_horizontal_speed);
 
     }
