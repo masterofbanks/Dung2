@@ -7,8 +7,8 @@ public class PlayerAnimBehavior : MonoBehaviour
 {
     private Rigidbody2D rb;
 
-    public PlayerController controller;
-    public PlayerAbilities abilityScript;
+    private PlayerController controller;
+    private PlayerAbilities abilityScript;
 
     
     // Start is called before the first frame update
@@ -35,8 +35,23 @@ public class PlayerAnimBehavior : MonoBehaviour
 
     private void StateController()
     {
+        //dead
+        if (controller.GetDeath())
+        {
+            controller.state = PlayerController.State.dead;
+            controller.DisableControls();
+            abilityScript.DisableAbilities();
+            if (controller.grounded)
+            {
+                rb.drag = 100;
+
+            }
+        }
+
+
+
         //rolling
-        if (abilityScript.GetRolling())
+        else if (abilityScript.GetRolling())
         {
             controller.state = PlayerController.State.rolling;
         }

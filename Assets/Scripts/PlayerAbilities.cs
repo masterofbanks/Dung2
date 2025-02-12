@@ -115,7 +115,7 @@ public class PlayerAbilities : MonoBehaviour
         controller.Set_IAB(boosting);
         rb.velocity = Vector2.zero;
         rb.gravityScale = 0.0f;
-        rb.velocity = new Vector2(controller.lastFacingRight * s, 0);
+        rb.velocity = new Vector2(controller.GetLastFacingRight() * s, 0);
 
         yield return new WaitForSeconds(d);
         boosting = false;
@@ -190,6 +190,21 @@ public class PlayerAbilities : MonoBehaviour
         dj.Disable();
         f.Disable();
         restart.Disable(); 
+    }
+
+    public void DisableAbilities()
+    {
+        boost = PIAs.Player.Boost;
+        boost.Enable();
+        boost.performed += Boost;
+
+        dj = PIAs.Player.Jump;
+        dj.Enable();
+        dj.performed += DoubleJump;
+
+        f = PIAs.Player.Float;
+        f.Enable();
+        f.performed += Float;
     }
 
     public void Set_Cans_true()

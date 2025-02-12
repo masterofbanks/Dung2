@@ -14,7 +14,8 @@ public class PlayerController : MonoBehaviour
         falling,
         crouching,
         cw,
-        rolling
+        rolling,
+        dead
     }
 
     [Header("State")]
@@ -44,13 +45,16 @@ public class PlayerController : MonoBehaviour
     public LayerMask groundMask;
     public float groundRadius;
 
+    [Header("Spike Death Physics")]
+    public Vector2 spikeForce;
+
     //input actions
     private InputAction move;
     private InputAction jump;
 
     //componenets
-    public Player_input PIAs;
-    public PlayerAbilities abil;
+    private Player_input PIAs;
+    private PlayerAbilities abil;
     private Rigidbody2D rb;
     private Animator anime;
 
@@ -63,7 +67,8 @@ public class PlayerController : MonoBehaviour
     //random bools
     private bool IAB;
     private bool facingRight;
-    public float lastFacingRight;
+    private float lastFacingRight;
+    private bool dead;
 
     // Start is called before the first frame update
     void Start()
@@ -89,12 +94,16 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         anime.SetInteger("state", (int)state);
+        if (!dead)
+        {
+            MoveCharacter();
+            UpdateJump();
 
-        MoveCharacter();
+        }
+
         Flip();
         PhysicsController();
         Grounded();
-        UpdateJump();
 
 
     }
@@ -204,6 +213,13 @@ public class PlayerController : MonoBehaviour
             collision.gameObject.GetComponent<Orb_Spawn_Behavior>().Disappear();
             GetComponent<PlayerAbilities>().Set_Cans_true();
         }
+
+        else if (collision.gameObject.CompareTag("Spikes") && !dead)
+        {
+            dead = true;
+            Vector2 sF = new Vector2(-1* lastFacingRight * spikeForce.x, spikeForce.y);
+            rb.velocity = sF;
+        }
     }
 
 
@@ -220,8 +236,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnDisable()
     {
-        move.Disable();
-        jump.Disable();
+        DisableControls();
     }
 
     public void SetHorizontalSpeed(float s)
@@ -247,6 +262,22 @@ public class PlayerController : MonoBehaviour
     public Vector2 GetDirectionalInput()
     {
         return directional_input;
+    }
+
+    public bool GetDeath()
+    {
+        return dead;
+    }
+
+    public void DisableControls()
+    {
+        move.Disable();
+        jump.Disable();
+    }
+
+    public float GetLastFacingRight()
+    {
+        return lastFacingRight;
     }
     
 }

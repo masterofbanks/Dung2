@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: d69e5157c7bb96340adacceee3de23c9
+guid: cfc548c0ad443a34ebff91df048e0872
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -136,211 +136,229 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: _DeathNoMovement_0
+      name: spikes_0
       rect:
         serializedVersion: 2
-        x: 36
-        y: 0
-        width: 30
-        height: 39
+        x: 0
+        y: 48
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -1.7643294, y: 2.3451958}
+        - {x: -4.728745, y: 4.5531654}
+        - {x: -8, y: 8}
+        - {x: -8, y: -8}
+        - {x: -2.7477121, y: -3.660347}
+        - {x: 1.5397406, y: 0.3780136}
       tessellationDetail: 0
       bones: []
-      spriteID: 30a501625c9ccf6469035acd1a6bcc45
-      internalID: -1261629475
+      spriteID: 3e491958682c00641bfb3c15c739aaf9
+      internalID: -1831433232
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: _DeathNoMovement_1
+      name: spikes_1
       rect:
         serializedVersion: 2
-        x: 156
-        y: 0
-        width: 29
-        height: 40
+        x: 32
+        y: 48
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -0.03835678, y: -1.8738556}
+        - {x: -2.4658012, y: 2.5970612}
+        - {x: -8, y: 8}
+        - {x: 8, y: 8}
+        - {x: 5.1150665, y: 6.0051193}
+        - {x: 3.15065, y: 4.2135086}
       tessellationDetail: 0
       bones: []
-      spriteID: dd62d1b1fc038f64e99e70d898c45efa
-      internalID: 929146729
+      spriteID: 86b9f8ac3b4d37949b5400ea89b99231
+      internalID: -1541541802
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: _DeathNoMovement_2
+      name: spikes_2
       rect:
         serializedVersion: 2
-        x: 277
+        x: 48
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -0.03835678, y: -1.8738556}
+        - {x: -2.4658012, y: 2.5970612}
+        - {x: -8, y: 8}
+        - {x: 8, y: 8}
+        - {x: 5.1150665, y: 6.0051193}
+        - {x: 3.15065, y: 4.2135086}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 18ee3bc9eebdc3a4a8a23bec9a12bf00
+      internalID: 2104281088
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spikes_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 32
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -1.7643294, y: 2.3451958}
+        - {x: -4.728745, y: 4.5531654}
+        - {x: -8, y: 8}
+        - {x: -8, y: -8}
+        - {x: -2.7477121, y: -3.660347}
+        - {x: 1.5397406, y: 0.3780136}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 60cd8c7a1465ce5478c4821657d0c543
+      internalID: -2007968639
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spikes_4
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 16
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -0.9972305, y: 0.19731522}
+        - {x: 2.098446, y: -2.6192198}
+        - {x: 5.002346, y: -4.279564}
+        - {x: 8, y: -8}
+        - {x: 7.9916916, y: 7.884512}
+        - {x: 4.7999153, y: 4.7504807}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8178dc42c87304849a0612497e98df02
+      internalID: 764476750
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spikes_5
+      rect:
+        serializedVersion: 2
+        x: 0
         y: 0
-        width: 32
-        height: 31
-      alignment: 9
-      pivot: {x: 0.5, y: 0.68}
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
+      outline:
+      - - {x: -8, y: 8}
+        - {x: -8, y: 0}
+        - {x: -8, y: -8}
+        - {x: 8, y: -8}
+        - {x: 8, y: 2}
+        - {x: 8, y: 8}
+      physicsShape:
+      - - {x: 0, y: 2}
+        - {x: -4, y: -4}
+        - {x: -8, y: -8}
+        - {x: 8, y: -8}
+        - {x: 5, y: -6}
+        - {x: 2, y: -2}
       tessellationDetail: 0
       bones: []
-      spriteID: ca01594eca5e0dc48a472e7b3593c1b5
-      internalID: -705047477
+      spriteID: e5e5175cea4fe344b81d7b3f5630fcc3
+      internalID: 377884674
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: _DeathNoMovement_3
+      name: spikes_6
       rect:
         serializedVersion: 2
-        x: 394
-        y: 7
-        width: 35
-        height: 23
-      alignment: 9
-      pivot: {x: 0.5, y: 0.74}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 290e15020eb4eb24d9956b4af1b2f01e
-      internalID: 2088323980
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: _DeathNoMovement_4
-      rect:
-        serializedVersion: 2
-        x: 510
-        y: 1
-        width: 38
-        height: 24
-      alignment: 9
-      pivot: {x: 0.5, y: 0.78}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: d4198eb42277a234fbce66568eca3849
-      internalID: -1970998312
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: _DeathNoMovement_5
-      rect:
-        serializedVersion: 2
-        x: 630
+        x: 16
         y: 0
-        width: 37
-        height: 22
-      alignment: 9
-      pivot: {x: 0.5, y: 0.82}
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
+      outline:
+      - - {x: -8, y: 8}
+        - {x: -8, y: 0}
+        - {x: -8, y: -8}
+        - {x: 8, y: -8}
+        - {x: 8, y: 2}
+        - {x: 8, y: 8}
+      physicsShape:
+      - - {x: 0, y: 2}
+        - {x: -4, y: -4}
+        - {x: -8, y: -8}
+        - {x: 8, y: -8}
+        - {x: 5, y: -6}
+        - {x: 2, y: -2}
       tessellationDetail: 0
       bones: []
-      spriteID: 54f12e1002c910d41912e1e79e4e9a1f
-      internalID: -1015489691
+      spriteID: 6f741d165249b784f9f44d4079ac820e
+      internalID: -1178059241
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: _DeathNoMovement_6
+      name: spikes_7
       rect:
         serializedVersion: 2
-        x: 750
+        x: 48
         y: 0
-        width: 37
-        height: 22
-      alignment: 9
-      pivot: {x: 0.5, y: 0.82}
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -0.9972305, y: 0.19731522}
+        - {x: 2.098446, y: -2.6192198}
+        - {x: 5.002346, y: -4.279564}
+        - {x: 8, y: -8}
+        - {x: 7.9916916, y: 7.884512}
+        - {x: 4.7999153, y: 4.7504807}
       tessellationDetail: 0
       bones: []
-      spriteID: f8ce92ca4adfdb2448d47e9a6463378c
-      internalID: 1085714933
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: _DeathNoMovement_7
-      rect:
-        serializedVersion: 2
-        x: 870
-        y: 0
-        width: 39
-        height: 17
-      alignment: 9
-      pivot: {x: 0.5, y: 1.09}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 5644a4e4105bc1243a9a53b13ca2c7bd
-      internalID: -2083302940
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: _DeathNoMovement_8
-      rect:
-        serializedVersion: 2
-        x: 990
-        y: 0
-        width: 41
-        height: 13
-      alignment: 9
-      pivot: {x: 0.5, y: 1.38}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: eb91284ccca1f604abc3d494d2e29288
-      internalID: -1489524267
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: _DeathNoMovement_9
-      rect:
-        serializedVersion: 2
-        x: 1110
-        y: 0
-        width: 42
-        height: 13
-      alignment: 9
-      pivot: {x: 0.5, y: 1.41}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: c2e6adf2e317f9f4bba05772f3528d41
-      internalID: 996209810
+      spriteID: 9ac47cb7847f8764cadf6946d0790bd9
+      internalID: 596018204
       vertices: []
       indices: 
       edges: []
@@ -356,16 +374,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      _DeathNoMovement_0: -1261629475
-      _DeathNoMovement_1: 929146729
-      _DeathNoMovement_2: -705047477
-      _DeathNoMovement_3: 2088323980
-      _DeathNoMovement_4: -1970998312
-      _DeathNoMovement_5: -1015489691
-      _DeathNoMovement_6: 1085714933
-      _DeathNoMovement_7: -2083302940
-      _DeathNoMovement_8: -1489524267
-      _DeathNoMovement_9: 996209810
+      spikes_0: -1831433232
+      spikes_1: -1541541802
+      spikes_2: 2104281088
+      spikes_3: -2007968639
+      spikes_4: 764476750
+      spikes_5: 377884674
+      spikes_6: -1178059241
+      spikes_7: 596018204
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
