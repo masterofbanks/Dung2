@@ -153,6 +153,7 @@ public class PlayerAbilities : MonoBehaviour
     IEnumerator FloatRoutine()
     {
         controller.SetFallingSpeed(floatingSpeed);
+        canFloat = false;
         yield return new WaitForSeconds(maxFloatDuration);
         controller.SetFallingSpeed(controller.norm_falling_speed);
     }

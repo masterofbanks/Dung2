@@ -9,14 +9,19 @@ public class PlayerAnimBehavior : MonoBehaviour
 
     private PlayerController controller;
     private PlayerAbilities abilityScript;
-
+    private CapsuleCollider2D capsuleCollider;
+    private BoxCollider2D deathCollider;
     
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         controller = GetComponent<PlayerController>();
-        abilityScript = GetComponent<PlayerAbilities>();    
+        abilityScript = GetComponent<PlayerAbilities>();   
+        capsuleCollider = GetComponent<CapsuleCollider2D>();    
+        deathCollider = GetComponent<BoxCollider2D>();
+        capsuleCollider.enabled = true;
+        deathCollider.enabled = false;
     }
 
     
@@ -41,11 +46,8 @@ public class PlayerAnimBehavior : MonoBehaviour
             controller.state = PlayerController.State.dead;
             controller.DisableControls();
             abilityScript.DisableAbilities();
-            if (controller.grounded)
-            {
-                rb.drag = 100;
-
-            }
+            capsuleCollider.enabled = false;
+            deathCollider.enabled = true;
         }
 
 
