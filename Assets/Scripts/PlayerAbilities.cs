@@ -7,8 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class PlayerAbilities : MonoBehaviour
 {
-    public Player_input PIAs;
-    public PlayerController controller;
+    
     
     [Header("Rolling Physics")]
     public float rollingSpeed;
@@ -39,6 +38,8 @@ public class PlayerAbilities : MonoBehaviour
 
     [Header("Player Componenets")]
     public PlayerAudioManager audioManager;
+    public Player_input PIAs;
+    public PlayerController controller;
 
     //Input Actions
     private InputAction boost;
@@ -93,8 +94,23 @@ public class PlayerAbilities : MonoBehaviour
                 r_t = 0;
             }
         }
+
+        WallingPhysics();
+        
     }
 
+    private void WallingPhysics()
+    {
+        if (controller.walled)
+        {
+            controller.SetFallingSpeed(floatingSpeed);
+        }
+
+        else
+        {
+            controller.SetFallingSpeed(controller.norm_falling_speed);
+        }
+    }
 
     private void Boost(InputAction.CallbackContext context)
     {
@@ -106,7 +122,7 @@ public class PlayerAbilities : MonoBehaviour
             StartCoroutine(BoostRoutine(IAB_Duration, IAB_Speed));
         }
 
-        else if (controller.grounded && numRolls > 0 && controller.GetDirectionalInput().x != 0)
+        else if (controller.grounded && numRolls > 0 && controller.GetDirectionalInput().x != 0 && !rolling)
         {
             StartCoroutine(RollRoutine(rollingDuration, rollingSpeed));
         }
@@ -114,14 +130,16 @@ public class PlayerAbilities : MonoBehaviour
 
     IEnumerator BoostRoutine(float d, float s)
     {
-        boosting = true;
-        Instantiate(audioManager.dash_sfx_obj, transform.position, transform.rotation);
-        controller.Set_IAB(boosting);
-        rb.velocity = Vector2.zero;
-        rb.gravityScale = 0.0f;
-        rb.velocity = new Vector2(controller.GetLastFacingRight() * s, 0);
+        boosting = true; //set boosting bool to true
+        Instantiate(audioManager.dash_sfx_obj, transform.position, transform.rotation); //play the dash sound effect
+        controller.Set_IAB(boosting); // set controller's IAB bool to true so you cannot put inputs in to move the player
+        rb.velocity = Vector2.zero; // set velo to 0
+        rb.gravityScale = 0.0f; // turn off gravity
+        rb.velocity = new Vector2(controller.GetLastFacingRight() * s, 0); // set the rb's new velocity to the dash speed based on the player's last inputted direction
 
         yield return new WaitForSeconds(d);
+
+        //undo all the above after d seconds
         boosting = false;
         controller.Set_IAB(boosting);
     }
@@ -130,10 +148,13 @@ public class PlayerAbilities : MonoBehaviour
     {
         rolling = true;
         numRolls--;
-        controller.SetHorizontalSpeed(s);
+        controller.Set_IAB(rolling);
+        rb.velocity = Vector2.zero;
+        rb.velocity = new Vector2(controller.GetLastFacingRight() * s, 0);
+
         yield return new WaitForSeconds(d);
         rolling = false;
-        controller.SetHorizontalSpeed(controller.norm_horizontal_speed);
+        controller.Set_IAB(rolling);
 
     }
 
@@ -201,17 +222,9 @@ public class PlayerAbilities : MonoBehaviour
 
     public void DisableAbilities()
     {
-        boost = PIAs.Player.Boost;
-        boost.Enable();
-        boost.performed += Boost;
-
-        dj = PIAs.Player.Jump;
-        dj.Enable();
-        dj.performed += DoubleJump;
-
-        f = PIAs.Player.Float;
-        f.Enable();
-        f.performed += Float;
+        boost.Disable();
+        dj.Disable();
+        f.Disable();
     }
 
     public void Set_Cans_true()

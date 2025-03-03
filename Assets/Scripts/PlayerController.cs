@@ -15,7 +15,8 @@ public class PlayerController : MonoBehaviour
         crouching,
         cw,
         rolling,
-        dead
+        dead,
+        wallSliding
     }
 
     [Header("State")]
@@ -42,8 +43,15 @@ public class PlayerController : MonoBehaviour
     [Header("Ground Stuff")]
     public Transform feetPosition;
     public bool grounded;
-    public LayerMask groundMask;
+    public LayerMask terrainMask;
     public float groundRadius;
+
+    [Header("Wall Stuff")]
+    public Transform wall_check_position;
+    public bool walled;
+    public float wallRadius;
+
+
 
     [Header("Spike Death Physics")]
     public Vector2 spikeForce;
@@ -108,7 +116,7 @@ public class PlayerController : MonoBehaviour
         Flip();
         PhysicsController();
         Grounded();
-
+        Walled();
 
     }
 
@@ -135,13 +143,13 @@ public class PlayerController : MonoBehaviour
 
     private void Flip()
     {
-        if (facingRight && System.Math.Sign(directional_input.x) == -1.0f)
+        if (facingRight && System.Math.Sign(directional_input.x) == -1.0f && !IAB)
         {
             transform.localScale = new Vector3(-1 * transform.localScale.x, 1, 1);
             facingRight = !facingRight;
         }
 
-        else if (!facingRight && System.Math.Sign(directional_input.x) == 1.0f)
+        else if (!facingRight && System.Math.Sign(directional_input.x) == 1.0f && !IAB)
         {
             transform.localScale = new Vector3(-1 * transform.localScale.x, 1, 1);
             facingRight = !facingRight;
@@ -191,7 +199,12 @@ public class PlayerController : MonoBehaviour
 
     private void Grounded()
     {
-        grounded = Physics2D.OverlapCircle(feetPosition.position, groundRadius, groundMask);
+        grounded = Physics2D.OverlapCircle(feetPosition.position, groundRadius, terrainMask);
+    }
+
+    private void Walled()
+    {
+        walled = Physics2D.OverlapCircle(wall_check_position.position, wallRadius, terrainMask) && !grounded && directional_input.x != 0;
     }
 
     private void UpdateJump()

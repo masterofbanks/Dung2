@@ -134,7 +134,70 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: _WallSlide_0
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 2
+        width: 22
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cde754e7f82a1da40a49f70fe87ac8c0
+      internalID: -1270556875
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: _WallSlide_1
+      rect:
+        serializedVersion: 2
+        x: 170
+        y: 2
+        width: 22
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 49ffa3cc6dbc7b941ba5c39647c6669c
+      internalID: 1111506987
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: _WallSlide_2
+      rect:
+        serializedVersion: 2
+        x: 290
+        y: 2
+        width: 22
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: de8b2df84c5b0aa489b4f645bedc50c1
+      internalID: 145439318
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -145,7 +208,10 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      _WallSlide_0: -1270556875
+      _WallSlide_1: 1111506987
+      _WallSlide_2: 145439318
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
