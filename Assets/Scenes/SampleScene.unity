@@ -21050,7 +21050,7 @@ MonoBehaviour:
   maxFloatDuration: 0.5
   in_air_boost: 1
   doubleJump: 1
-  floating: 1
+  in_air_float: 1
   audioManager: {fileID: 0}
   controller: {fileID: 0}
 --- !u!70 &1285118618

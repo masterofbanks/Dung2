@@ -34,7 +34,7 @@ public class PlayerAbilities : MonoBehaviour
     [Header("Abilities")]
     public bool in_air_boost;
     public bool doubleJump;
-    public bool floating;
+    public bool in_air_float;
 
     [Header("Player Componenets")]
     public PlayerAudioManager audioManager;
@@ -58,6 +58,7 @@ public class PlayerAbilities : MonoBehaviour
 
 
     private bool rolling;
+    private bool floating;
 
     
 
@@ -71,6 +72,7 @@ public class PlayerAbilities : MonoBehaviour
         canDJ = false;
         canFloat = false;
         boosting = false;
+        floating = false;
         r_t = 0;
         numRolls = numMaxRolls;
         audioManager = GetComponent<PlayerAudioManager>();
@@ -106,7 +108,7 @@ public class PlayerAbilities : MonoBehaviour
             controller.SetFallingSpeed(floatingSpeed);
         }
 
-        else
+        else if(!floating)
         {
             controller.SetFallingSpeed(controller.norm_falling_speed);
         }
@@ -171,8 +173,9 @@ public class PlayerAbilities : MonoBehaviour
 
     private void Float(InputAction.CallbackContext context)
     {
-        if(canFloat && !controller.grounded && floating)
+        if(canFloat && !controller.grounded && in_air_float)
         {
+            Debug.Log("Floating?");
             StartCoroutine(FloatRoutine());
         }
     }
@@ -181,8 +184,10 @@ public class PlayerAbilities : MonoBehaviour
     {
         controller.SetFallingSpeed(floatingSpeed);
         canFloat = false;
+        floating = true;
         yield return new WaitForSeconds(maxFloatDuration);
         controller.SetFallingSpeed(controller.norm_falling_speed);
+        floating = false;
     }
 
     private void Restart(InputAction.CallbackContext context)

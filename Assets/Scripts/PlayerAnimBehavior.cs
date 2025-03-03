@@ -98,14 +98,10 @@ public class PlayerAnimBehavior : MonoBehaviour
         //in the air
         else
         {
-            //on da wall
-            if (controller.walled)
-            {
-                controller.state = PlayerController.State.wallSliding;
-            }
+            
             
             //rising up
-            else if(rb.velocity.y > 0)
+            if(rb.velocity.y > 0)
             {
                 controller.state = PlayerController.State.jumping;
             }
@@ -113,7 +109,17 @@ public class PlayerAnimBehavior : MonoBehaviour
             //falling down
             else
             {
-                controller.state = PlayerController.State.falling;
+                //on da wall
+                if (controller.walled)
+                {
+                    controller.state = PlayerController.State.wallSliding;
+                }
+
+                else
+                {
+                    controller.state = PlayerController.State.falling;
+
+                }
             }
         }
     }
