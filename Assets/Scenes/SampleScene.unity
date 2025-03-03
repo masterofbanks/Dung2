@@ -20858,6 +20858,7 @@ GameObject:
   - component: {fileID: 1285118616}
   - component: {fileID: 1285118617}
   - component: {fileID: 1285118620}
+  - component: {fileID: 1285118622}
   - component: {fileID: 1285118618}
   - component: {fileID: 1285118619}
   - component: {fileID: 1285118621}
@@ -21022,6 +21023,7 @@ MonoBehaviour:
     m_Bits: 8
   groundRadius: 0.15
   spikeForce: {x: 10, y: 10}
+  audioManager: {fileID: 0}
 --- !u!114 &1285118617
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21046,6 +21048,7 @@ MonoBehaviour:
   in_air_boost: 1
   doubleJump: 1
   floating: 1
+  audioManager: {fileID: 0}
 --- !u!70 &1285118618
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -21159,6 +21162,21 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.3125, y: 2.375}
   m_EdgeRadius: 0
+--- !u!114 &1285118622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1285118610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61b30f3602369074aa94f3f13adbfd11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jump_one_sfx_obj: {fileID: 1942227410794126298, guid: 5a26ef4bc02911c4cae7ba693d44cea0, type: 3}
+  jump_two_sfx_obj: {fileID: 1942227410794126298, guid: 77282c3f6f54f2f428bef8e47bf3c5ae, type: 3}
+  dash_sfx_obj: {fileID: 1942227410794126298, guid: 064584628744bcb438e2f17111d2dc4a, type: 3}
 --- !u!1001 &6388409950807986692
 PrefabInstance:
   m_ObjectHideFlags: 0

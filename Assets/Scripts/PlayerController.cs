@@ -48,6 +48,9 @@ public class PlayerController : MonoBehaviour
     [Header("Spike Death Physics")]
     public Vector2 spikeForce;
 
+    [Header("Player Componenets")]
+    public PlayerAudioManager audioManager;
+
     //input actions
     private InputAction move;
     private InputAction jump;
@@ -76,6 +79,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         abil = GetComponent<PlayerAbilities>();
         anime = GetComponent<Animator>();
+        audioManager = GetComponent<PlayerAudioManager>();
         facingRight = true;
         rb.gravityScale = up_vy_grav;
         horizontal_speed = norm_horizontal_speed;
@@ -195,6 +199,8 @@ public class PlayerController : MonoBehaviour
         if (coy_Timer > 0 && buffer_Timer > 0)
         {
             AddJumpForce();
+            Instantiate(audioManager.jump_one_sfx_obj, transform.position, transform.rotation);
+
             buffer_Timer = 0;
         }
     }
@@ -286,6 +292,11 @@ public class PlayerController : MonoBehaviour
     public float GetLastFacingRight()
     {
         return lastFacingRight;
+    }
+
+    public bool CanGroundJump()
+    {
+        return coy_Timer > 0 && buffer_Timer > 0;
     }
     
 }

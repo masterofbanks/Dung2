@@ -37,6 +37,8 @@ public class PlayerAbilities : MonoBehaviour
     public bool doubleJump;
     public bool floating;
 
+    [Header("Player Componenets")]
+    public PlayerAudioManager audioManager;
 
     //Input Actions
     private InputAction boost;
@@ -70,6 +72,7 @@ public class PlayerAbilities : MonoBehaviour
         boosting = false;
         r_t = 0;
         numRolls = numMaxRolls;
+        audioManager = GetComponent<PlayerAudioManager>();
     }
 
     private void Awake()
@@ -112,6 +115,7 @@ public class PlayerAbilities : MonoBehaviour
     IEnumerator BoostRoutine(float d, float s)
     {
         boosting = true;
+        Instantiate(audioManager.dash_sfx_obj, transform.position, transform.rotation);
         controller.Set_IAB(boosting);
         rb.velocity = Vector2.zero;
         rb.gravityScale = 0.0f;
@@ -135,9 +139,11 @@ public class PlayerAbilities : MonoBehaviour
 
     private void DoubleJump(InputAction.CallbackContext context)
     {
-        if(!controller.grounded && canDJ && doubleJump)
+        if(!controller.CanGroundJump() && canDJ && doubleJump)
         {
             canDJ = false;
+            Instantiate(audioManager.jump_two_sfx_obj, transform.position, transform.rotation);
+
             controller.AddJumpForce();
         }
     }
