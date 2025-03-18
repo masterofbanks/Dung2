@@ -155,7 +155,7 @@ public class PlayerAbilities : MonoBehaviour
 
     private void DoubleJump(InputAction.CallbackContext context)
     {
-        if(!controller.CanGroundJump() && canDJ && doubleJump &&!controller.Get_isWallJumping())
+        if(!controller.CanGroundJump() && canDJ && doubleJump &&!controller.walled)
         {
             canDJ = false;
             Instantiate(jump_two_sfx_obj, transform.position, transform.rotation);

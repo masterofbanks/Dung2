@@ -55,9 +55,9 @@ public class PlayerController : MonoBehaviour
 
     private bool isWallJumping;
     private float wallJumpingDirection;
-    private float wallJumpingTime = 0.2f;
+    private float wallJumpingTime = 0.15f;
     private float wallJumpingCounter;
-    private float wallJumpingDuration = 0.4f;
+    private float wallJumpingDuration = 0.3f;
 
 
     [Header("Spike Death Physics")]
@@ -76,6 +76,7 @@ public class PlayerController : MonoBehaviour
 
     private Player_input PIAs;
     private PlayerAbilities abil;
+    private GameManager manager;
     private Rigidbody2D rb;
     private Animator anime;
 
@@ -97,6 +98,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         abil = GetComponent<PlayerAbilities>();
         anime = GetComponent<Animator>();
+        manager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
         facingRight = true;
         rb.gravityScale = up_vy_grav;
         horizontal_speed = norm_horizontal_speed;
@@ -300,6 +302,12 @@ public class PlayerController : MonoBehaviour
             dead = true;
             Vector2 sF = new Vector2(-1* lastFacingRight * spikeForce.x, spikeForce.y);
             rb.velocity = sF;
+        }
+
+        else if (collision.gameObject.CompareTag("Coin"))
+        {
+            collision.gameObject.GetComponent<Coin_Behavior>().DestroyCoin();
+            manager.num_coins++;
         }
     }
 
