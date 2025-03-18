@@ -98,29 +98,29 @@ public class PlayerAnimBehavior : MonoBehaviour
         //in the air
         else
         {
-            
-            
-            //rising up
-            if(rb.velocity.y > 0)
+            //on da wall
+            if (controller.walled)
+            {
+                controller.state = PlayerController.State.wallSliding;
+            }
+
+            //off the wall and rising up
+            else if (rb.velocity.y > 0)
             {
                 controller.state = PlayerController.State.jumping;
             }
 
-            //falling down
-            else
+            // off the wall and falling down
+            else if(rb.velocity.y < 0)
             {
-                //on da wall
-                if (controller.walled)
-                {
-                    controller.state = PlayerController.State.wallSliding;
-                }
+                controller.state = PlayerController.State.falling;
 
-                else
-                {
-                    controller.state = PlayerController.State.falling;
-
-                }
             }
+
+
+
+
+            
         }
     }
 

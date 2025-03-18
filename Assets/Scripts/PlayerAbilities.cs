@@ -37,9 +37,12 @@ public class PlayerAbilities : MonoBehaviour
     public bool in_air_float;
 
     [Header("Player Componenets")]
-    public PlayerAudioManager audioManager;
     public Player_input PIAs;
-    public PlayerController controller;
+    private PlayerController controller;
+
+    [Header("SFX")]
+    public GameObject jump_two_sfx_obj;
+    public GameObject dash_sfx_obj;
 
     //Input Actions
     private InputAction boost;
@@ -75,7 +78,6 @@ public class PlayerAbilities : MonoBehaviour
         floating = false;
         r_t = 0;
         numRolls = numMaxRolls;
-        audioManager = GetComponent<PlayerAudioManager>();
     }
 
     private void Awake()
@@ -97,22 +99,10 @@ public class PlayerAbilities : MonoBehaviour
             }
         }
 
-        WallingPhysics();
         
     }
 
-    private void WallingPhysics()
-    {
-        if (controller.walled)
-        {
-            controller.SetFallingSpeed(floatingSpeed);
-        }
-
-        else if(!floating)
-        {
-            controller.SetFallingSpeed(controller.norm_falling_speed);
-        }
-    }
+    
 
     private void Boost(InputAction.CallbackContext context)
     {
@@ -120,8 +110,11 @@ public class PlayerAbilities : MonoBehaviour
 
         if(!controller.grounded && in_air_boost && can_IAB)
         {
-            can_IAB = false;
-            StartCoroutine(BoostRoutine(IAB_Duration, IAB_Speed));
+            if (!controller.walled)
+            {
+                can_IAB = false;
+                StartCoroutine(BoostRoutine(IAB_Duration, IAB_Speed));
+            }
         }
 
         else if (controller.grounded && numRolls > 0 && controller.GetDirectionalInput().x != 0 && !rolling)
@@ -133,7 +126,7 @@ public class PlayerAbilities : MonoBehaviour
     IEnumerator BoostRoutine(float d, float s)
     {
         boosting = true; //set boosting bool to true
-        Instantiate(audioManager.dash_sfx_obj, transform.position, transform.rotation); //play the dash sound effect
+        Instantiate(dash_sfx_obj, transform.position, transform.rotation); //play the dash sound effect
         controller.Set_IAB(boosting); // set controller's IAB bool to true so you cannot put inputs in to move the player
         rb.velocity = Vector2.zero; // set velo to 0
         rb.gravityScale = 0.0f; // turn off gravity
@@ -162,10 +155,10 @@ public class PlayerAbilities : MonoBehaviour
 
     private void DoubleJump(InputAction.CallbackContext context)
     {
-        if(!controller.CanGroundJump() && canDJ && doubleJump)
+        if(!controller.CanGroundJump() && canDJ && doubleJump &&!controller.Get_isWallJumping())
         {
             canDJ = false;
-            Instantiate(audioManager.jump_two_sfx_obj, transform.position, transform.rotation);
+            Instantiate(jump_two_sfx_obj, transform.position, transform.rotation);
 
             controller.AddJumpForce();
         }
@@ -247,5 +240,10 @@ public class PlayerAbilities : MonoBehaviour
     public bool GetRolling()
     {
         return rolling;
+    }
+
+    public bool getFloating()
+    {
+        return floating;
     }
 }

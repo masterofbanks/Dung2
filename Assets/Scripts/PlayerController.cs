@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.XR;
 
 public class PlayerController : MonoBehaviour
 {
@@ -50,20 +51,29 @@ public class PlayerController : MonoBehaviour
     public Transform wall_check_position;
     public bool walled;
     public float wallRadius;
+    public Vector2 wallJumpingPower;
 
+    private bool isWallJumping;
+    private float wallJumpingDirection;
+    private float wallJumpingTime = 0.2f;
+    private float wallJumpingCounter;
+    private float wallJumpingDuration = 0.4f;
 
 
     [Header("Spike Death Physics")]
     public Vector2 spikeForce;
 
-    [Header("Player Componenets")]
-    public PlayerAudioManager audioManager;
+    [Header("SFX")]
+    public GameObject jump_one_sfx_obj;
+    public GameObject wj_sfx_obj;
+
 
     //input actions
     private InputAction move;
     private InputAction jump;
 
     //componenets
+
     private Player_input PIAs;
     private PlayerAbilities abil;
     private Rigidbody2D rb;
@@ -87,7 +97,6 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         abil = GetComponent<PlayerAbilities>();
         anime = GetComponent<Animator>();
-        audioManager = GetComponent<PlayerAudioManager>();
         facingRight = true;
         rb.gravityScale = up_vy_grav;
         horizontal_speed = norm_horizontal_speed;
@@ -110,13 +119,14 @@ public class PlayerController : MonoBehaviour
         {
             MoveCharacter();
             UpdateJump();
+            Flip();
 
         }
 
-        Flip();
         PhysicsController();
         Grounded();
         Walled();
+        WallSlide();
 
     }
 
@@ -125,7 +135,7 @@ public class PlayerController : MonoBehaviour
         Vector2 raw_d_input = move.ReadValue<Vector2>();
         directional_input = new Vector2(System.Math.Sign(raw_d_input.x), System.Math.Sign(raw_d_input.y));
 
-        if (!IAB)
+        if (!IAB && !isWallJumping)
         {
 
             rb.velocity = new Vector2(directional_input.x * horizontal_speed, rb.velocity.y);
@@ -143,13 +153,13 @@ public class PlayerController : MonoBehaviour
 
     private void Flip()
     {
-        if (facingRight && System.Math.Sign(directional_input.x) == -1.0f && !IAB)
+        if (facingRight && System.Math.Sign(directional_input.x) == -1.0f && !IAB && !isWallJumping)
         {
             transform.localScale = new Vector3(-1 * transform.localScale.x, 1, 1);
             facingRight = !facingRight;
         }
 
-        else if (!facingRight && System.Math.Sign(directional_input.x) == 1.0f && !IAB)
+        else if (!facingRight && System.Math.Sign(directional_input.x) == 1.0f && !IAB && !isWallJumping)
         {
             transform.localScale = new Vector3(-1 * transform.localScale.x, 1, 1);
             facingRight = !facingRight;
@@ -212,7 +222,7 @@ public class PlayerController : MonoBehaviour
         if (coy_Timer > 0 && buffer_Timer > 0)
         {
             AddJumpForce();
-            Instantiate(audioManager.jump_one_sfx_obj, transform.position, transform.rotation);
+            Instantiate(jump_one_sfx_obj, transform.position, transform.rotation);
 
             buffer_Timer = 0;
         }
@@ -223,6 +233,58 @@ public class PlayerController : MonoBehaviour
 
 
         buffer_Timer = bufferTime;
+        if (walled)
+        {
+            isWallJumping = false;
+            if (facingRight)
+            {
+                wallJumpingDirection = -1;
+            }
+
+            else
+            {
+                wallJumpingDirection = 1;
+            }
+
+            wallJumpingCounter = wallJumpingTime;
+            CancelInvoke(nameof(StopWallJumping));
+        }
+
+        else
+        {
+            wallJumpingCounter -= Time.deltaTime;
+
+        }
+
+        if (wallJumpingCounter > 0f) //&& and can Wall jump
+        {
+            isWallJumping = true;
+            rb.velocity = new Vector2(wallJumpingDirection * wallJumpingPower.x, wallJumpingPower.y);
+            transform.localScale = new Vector3(-1 * transform.localScale.x, 1, 1);
+            facingRight = !facingRight;
+            Instantiate(wj_sfx_obj, transform.position, transform.rotation);
+            
+            wallJumpingCounter = 0f;
+
+            Invoke(nameof(StopWallJumping), wallJumpingDuration);
+        }
+    }
+
+    private void WallSlide()
+    {
+        if (walled)
+        {
+            SetFallingSpeed(abil.floatingSpeed);
+        }
+        else if (!abil.getFloating())
+        {
+            SetFallingSpeed(norm_falling_speed);
+        }
+    }
+
+    private void StopWallJumping()
+    {
+        isWallJumping = false;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -240,6 +302,8 @@ public class PlayerController : MonoBehaviour
             rb.velocity = sF;
         }
     }
+
+
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -310,6 +374,11 @@ public class PlayerController : MonoBehaviour
     public bool CanGroundJump()
     {
         return coy_Timer > 0 && buffer_Timer > 0;
+    }
+
+    public bool Get_isWallJumping()
+    {
+        return isWallJumping;
     }
     
 }
