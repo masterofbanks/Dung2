@@ -197,7 +197,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   state: 0
   norm_horizontal_speed: 11.5
-  norm_falling_speed: 30
+  norm_falling_speed: 20
   jumpForce: 22.5
   up_vy_grav: 5
   down_vy_grav: 8

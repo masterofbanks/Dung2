@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.XR;
@@ -49,9 +50,11 @@ public class PlayerController : MonoBehaviour
 
     [Header("Wall Stuff")]
     public Transform wall_check_position;
+    public LayerMask wallMask;
     public bool walled;
     public float wallRadius;
     public Vector2 wallJumpingPower;
+    
 
     private bool isWallJumping;
     private float wallJumpingDirection;
@@ -84,7 +87,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 directional_input;
     private float horizontal_speed;
     private float max_falling_speed;
-
+    public GameObject jt_obj;
 
     //random bools
     private bool IAB;
@@ -150,8 +153,12 @@ public class PlayerController : MonoBehaviour
             lastFacingRight = directional_input.x;
         }
 
+        
+
         rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -max_falling_speed, float.MaxValue));
     }
+
+    
 
     private void Flip()
     {
@@ -211,12 +218,16 @@ public class PlayerController : MonoBehaviour
 
     private void Grounded()
     {
-        grounded = Physics2D.OverlapCircle(feetPosition.position, groundRadius, terrainMask);
+        grounded = Physics2D.OverlapCircle(feetPosition.position, groundRadius, terrainMask) && Mathf.Abs(rb.velocity.y) < 0.01f;
+        if ((state == State.cw || state == State.crouching) && jt_obj != null)
+        {
+            jt_obj.GetComponent<BoxCollider2D>().isTrigger = true;
+        }
     }
 
     private void Walled()
     {
-        walled = Physics2D.OverlapCircle(wall_check_position.position, wallRadius, terrainMask) && !grounded && directional_input.x != 0;
+        walled = Physics2D.OverlapCircle(wall_check_position.position, wallRadius, wallMask) && !grounded && directional_input.x != 0;
     }
 
     private void UpdateJump()
@@ -309,6 +320,16 @@ public class PlayerController : MonoBehaviour
             collision.gameObject.GetComponent<Coin_Behavior>().DestroyCoin();
             manager.num_coins++;
         }
+
+        
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("JT"))
+        {
+            collision.gameObject.GetComponent<BoxCollider2D>().isTrigger = false;
+        }
     }
 
 
@@ -318,6 +339,19 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground") && dead)
         {
             rb.velocity = Vector2.zero;
+        }
+
+        else if (collision.gameObject.CompareTag("JT"))
+        {
+            jt_obj = collision.gameObject;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("JT"))
+        {
+            jt_obj = null;
         }
     }
 
@@ -388,5 +422,7 @@ public class PlayerController : MonoBehaviour
     {
         return isWallJumping;
     }
+
     
+
 }
