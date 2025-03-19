@@ -9,6 +9,7 @@ TagManager:
   - Spikes
   - Coin
   - JT
+  - CoinSFX
   layers:
   - Default
   - TransparentFX

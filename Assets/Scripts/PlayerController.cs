@@ -54,7 +54,10 @@ public class PlayerController : MonoBehaviour
     public bool walled;
     public float wallRadius;
     public Vector2 wallJumpingPower;
-    
+
+    [Header("Overhead Stuff")]
+    public Transform aboveCheck;
+    public float aboveCheckRadius;
 
     private bool isWallJumping;
     private float wallJumpingDirection;
@@ -94,6 +97,7 @@ public class PlayerController : MonoBehaviour
     private bool facingRight;
     private float lastFacingRight;
     private bool dead;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -228,6 +232,11 @@ public class PlayerController : MonoBehaviour
     private void Walled()
     {
         walled = Physics2D.OverlapCircle(wall_check_position.position, wallRadius, wallMask) && !grounded && directional_input.x != 0;
+    }
+
+    public bool CheckAbove()
+    {
+        return aboveCheck.gameObject.activeSelf && Physics2D.OverlapCircle(aboveCheck.position, aboveCheckRadius, terrainMask);
     }
 
     private void UpdateJump()

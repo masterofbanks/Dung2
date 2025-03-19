@@ -66,13 +66,13 @@ public class PlayerAnimBehavior : MonoBehaviour
             {
                 
                 //crouch walking
-                if (controller.GetDirectionalInput().y == -1)
+                if (controller.GetDirectionalInput().y == -1 || controller.CheckAbove())
                 {
                     controller.state = PlayerController.State.cw;
                 }
 
                 //normal running
-                else
+                else 
                 {
                     controller.state = PlayerController.State.running;
                 }
@@ -82,7 +82,7 @@ public class PlayerAnimBehavior : MonoBehaviour
             else
             {
                 //crouching
-                if(controller.GetDirectionalInput().y == -1)
+                if(controller.GetDirectionalInput().y == -1 || controller.CheckAbove())
                 {
                     controller.state = PlayerController.State.crouching;
                 }
