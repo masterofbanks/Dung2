@@ -82,6 +82,7 @@ public class PlayerController : MonoBehaviour
 
     private Player_input PIAs;
     private PlayerAbilities abil;
+    private PlayerAnimBehavior animScrip;
     private GameManager manager;
     private Rigidbody2D rb;
     private Animator anime;
@@ -96,7 +97,7 @@ public class PlayerController : MonoBehaviour
     private bool IAB;
     private bool facingRight;
     private float lastFacingRight;
-    private bool dead;
+    public bool dead;
     
 
     // Start is called before the first frame update
@@ -104,6 +105,7 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         abil = GetComponent<PlayerAbilities>();
+        animScrip = GetComponent<PlayerAnimBehavior>();
         anime = GetComponent<Animator>();
         manager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
         facingRight = true;
@@ -322,12 +324,19 @@ public class PlayerController : MonoBehaviour
             dead = true;
             Vector2 sF = new Vector2(-1* lastFacingRight * spikeForce.x, spikeForce.y);
             rb.velocity = sF;
+            StartCoroutine(animScrip.RespawnRoutine());
         }
 
         else if (collision.gameObject.CompareTag("Coin"))
         {
             collision.gameObject.GetComponent<Coin_Behavior>().DestroyCoin();
+            
             manager.num_coins++;
+        }
+
+        else if (collision.gameObject.CompareTag("RespawnAnchor"))
+        {
+            animScrip.respawnPoint = collision.gameObject.transform;
         }
 
         
@@ -422,6 +431,12 @@ public class PlayerController : MonoBehaviour
     {
         move.Disable();
         jump.Disable();
+    }
+
+    public void EnableControls()
+    {
+        move.Enable();
+        jump.Enable();
     }
 
     public float GetLastFacingRight()

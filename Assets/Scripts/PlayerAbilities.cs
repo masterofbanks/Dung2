@@ -225,6 +225,13 @@ public class PlayerAbilities : MonoBehaviour
         f.Disable();
     }
 
+    public void EnableAbilities()
+    {
+        boost.Enable();
+        dj.Enable();
+        f.Enable();
+    }
+
     public void Set_Cans_true()
     {
         can_IAB = true;

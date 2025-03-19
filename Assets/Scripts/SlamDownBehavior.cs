@@ -39,8 +39,6 @@ public class SlamDownBehavior : MonoBehaviour
 
     public State state;
 
-    private float speed;
-    private Vector3 target;
     private Rigidbody2D rb;
     public bool grounded;
     private float t;
@@ -49,8 +47,7 @@ public class SlamDownBehavior : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         state = State.idle;
-        speed = 0;
-        target = normalPosition.position; //in scene view, slamdown's intial position should be at its normalPosition
+        
         t = 0;
     }
 

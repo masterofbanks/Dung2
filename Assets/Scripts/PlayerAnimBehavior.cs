@@ -5,6 +5,9 @@ using UnityEngine.InputSystem;
 
 public class PlayerAnimBehavior : MonoBehaviour
 {
+    public Transform respawnPoint;
+    public Transform offScreen;
+    public Transform starting_respawnPoint;
     private Rigidbody2D rb;
 
     private PlayerController controller;
@@ -22,6 +25,7 @@ public class PlayerAnimBehavior : MonoBehaviour
         deathCollider = GetComponent<BoxCollider2D>();
         capsuleCollider.enabled = true;
         deathCollider.enabled = false;
+        respawnPoint = starting_respawnPoint;
     }
 
     
@@ -38,16 +42,32 @@ public class PlayerAnimBehavior : MonoBehaviour
         StateController();
     }
 
+    public IEnumerator RespawnRoutine()
+    {
+        controller.state = PlayerController.State.dead;
+        controller.DisableControls();
+        abilityScript.DisableAbilities();
+        capsuleCollider.enabled = false;
+        deathCollider.enabled = true;
+        yield return new WaitForSeconds(1.0f);
+        controller.state = PlayerController.State.idle;
+        
+        controller.dead = false;
+        
+        controller.EnableControls();
+        abilityScript.EnableAbilities();
+        capsuleCollider.enabled = true;
+        deathCollider.enabled = false;
+        transform.position = respawnPoint.position;
+
+    }
+
     private void StateController()
     {
         //dead
         if (controller.GetDeath())
         {
-            controller.state = PlayerController.State.dead;
-            controller.DisableControls();
-            abilityScript.DisableAbilities();
-            capsuleCollider.enabled = false;
-            deathCollider.enabled = true;
+              
         }
 
 

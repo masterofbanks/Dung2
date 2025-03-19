@@ -10,6 +10,7 @@ TagManager:
   - Coin
   - JT
   - CoinSFX
+  - RespawnAnchor
   layers:
   - Default
   - TransparentFX
