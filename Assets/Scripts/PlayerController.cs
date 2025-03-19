@@ -354,6 +354,13 @@ public class PlayerController : MonoBehaviour
         {
             jt_obj = collision.gameObject;
         }
+
+        else if (collision.gameObject.CompareTag("Spikes") && !dead)
+        {
+            dead = true;
+            Vector2 sF = new Vector2(-1 * lastFacingRight * spikeForce.x, spikeForce.y);
+            rb.velocity = sF;
+        }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
