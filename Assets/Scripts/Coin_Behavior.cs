@@ -10,7 +10,9 @@ public class Coin_Behavior : MonoBehaviour
     public void DestroyCoin()
     {
         Instantiate(coin_effect, transform.position, transform.rotation);
-        Instantiate(coin_sfx, transform.position, transform.rotation);
+        GameObject[] all_coin_sfxs = GameObject.FindGameObjectsWithTag("CoinSFX");
+        if(all_coin_sfxs.Length < 3)
+            Instantiate(coin_sfx, transform.position, transform.rotation);
         Destroy(gameObject);
     }
 }

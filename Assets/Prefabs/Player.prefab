@@ -206,18 +206,22 @@ MonoBehaviour:
   bufferTime: 0.1
   buffer_Timer: 0
   feetPosition: {fileID: 7558538303407738484}
-  grounded: 0
+  grounded: 1
   terrainMask:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 72
   groundRadius: 0.15
   wall_check_position: {fileID: 5810382281486222696}
+  wallMask:
+    serializedVersion: 2
+    m_Bits: 8
   walled: 0
   wallRadius: 0.3
   wallJumpingPower: {x: 15, y: 15}
   spikeForce: {x: 10, y: 10}
   jump_one_sfx_obj: {fileID: 1942227410794126298, guid: 5a26ef4bc02911c4cae7ba693d44cea0, type: 3}
   wj_sfx_obj: {fileID: 1942227410794126298, guid: 6118eb4f8a9568c409709fe0292a84b0, type: 3}
+  jt_obj: {fileID: 0}
 --- !u!114 &8518857024872103911
 MonoBehaviour:
   m_ObjectHideFlags: 0
