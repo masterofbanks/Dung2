@@ -50,9 +50,10 @@ public class PlayerAnimBehavior : MonoBehaviour
         capsuleCollider.enabled = false;
         deathCollider.enabled = true;
         yield return new WaitForSeconds(1.0f);
-        controller.state = PlayerController.State.idle;
-        
         controller.dead = false;
+        controller.state = PlayerController.State.idle;
+        transform.position = offScreen.position;
+        yield return new WaitForSeconds(0.1f);
         
         controller.EnableControls();
         abilityScript.EnableAbilities();
