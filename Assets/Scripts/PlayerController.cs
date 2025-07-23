@@ -122,7 +122,6 @@ public class PlayerController : MonoBehaviour
         PIAs = new Player_input();
     }
 
-    // Update is called once per frame
     void Update()
     {
         anime.SetInteger("state", (int)state);
@@ -191,12 +190,10 @@ public class PlayerController : MonoBehaviour
 
             if (!abil.GetBoosting())
             {
-                //if you are in the air and moving upwards, set gravity to up_vy_grav
                 if (rb.velocity.y > 0.01f)
                 {
                     rb.gravityScale = up_vy_grav;
                 }
-                //if you are in the air and are moving downwards, set the gravity to down_vy_grav
                 else
                 {
                     rb.gravityScale = down_vy_grav;
@@ -369,6 +366,7 @@ public class PlayerController : MonoBehaviour
             dead = true;
             Vector2 sF = new Vector2(-1 * lastFacingRight * spikeForce.x, spikeForce.y);
             rb.velocity = sF;
+            StartCoroutine(animScrip.RespawnRoutine());
         }
     }
 
